@@ -1,6 +1,13 @@
 import sys
 
-if len(sys.argv) != 2:
+if len(sys.argv) < 2:
+	quit()
+
+if len(sys.argv) > 2:
+	print("ERROR")
+	quit()
+
+if sys.argv[1].isdigit() == False:
 	print("ERROR")
 	quit()
 
