@@ -28,12 +28,13 @@ def list_recipes():
 
 while 1:
     answer = input("Please select an option by typing the corresponding number:\n\
-    1: Add a recipe\n\
-    2: Delete a recipe\n\
-    3: Print a recipe\n\
-    4: Print the cookbook\n\
-    5: Quit\n")
+1: Add a recipe\n\
+2: Delete a recipe\n\
+3: Print a recipe\n\
+4: Print the cookbook\n\
+5: Quit\n>>")
     
+    print()
     if answer == "1":
         recipe_name = input("Enter Recipe Name:\n")
         ingredients_needed = input("Enter list of ingredients, separated by spaces:\n").split()
@@ -52,4 +53,5 @@ while 1:
         print("Cookbook closed.")
         quit()
     else:
+        print("This option does not exist, please type the corresponding number.\n")
         continue
