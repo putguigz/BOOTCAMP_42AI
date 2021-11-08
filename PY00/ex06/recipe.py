@@ -12,7 +12,7 @@ def print_recipe(name):
 
 def delete_recipe(name):
     if name in cookbook:
-        del cookbook["sandwich"]
+        del cookbook[name]
 
 def add_recipe(name, ingredients, meal, prep_time):
     if name in cookbook:
