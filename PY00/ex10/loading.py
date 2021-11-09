@@ -1,5 +1,4 @@
 from time import sleep
-import sys
 
 def ft_progress(listy):
 	'''RETURN POSITION IN RANGE'''	
@@ -24,7 +23,7 @@ for elem in ft_progress(listy):
 	sequence = "{:" + '*' + "<" + str(size_stars) + "}"
 	sequence2 = "{: <" + str(size_spaces) + "}"
 	progress_bar = sequence.format("") + sequence2.format("")
-	print("ETA: %.2fs [ %d%%]" % (ETA, percent), "%i/%i |" % (range_size - remaining_range, range_size), "[", progress_bar, "]", "elapsed_time %.2fs" % time_elapsed, end='\r')
+	print("ETA: %.2fs [ %s%%]" % (ETA, "{: >4}".format(percent)), "%s/%i |" % ("{: >4}".format(range_size - remaining_range), range_size), "[" + progress_bar + "]", "elapsed_time %.2fs" % time_elapsed, end='\r')
 
 	
 	ret += (elem + 3) % 5
