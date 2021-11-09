@@ -18,8 +18,14 @@ for elem in ft_progress(listy):
 	remaining_range-=1
 	percent = (range_size - remaining_range) * 100 / range_size
 	ETA = float(sleep_value * remaining_range)
-	print("ETA: %.2fs [ %d%%]" % (ETA, percent), "%i/%i | " % (range_size - remaining_range, range_size), "elapsed time %.2fs" % time_elapsed, end='\r')
-	
+	size_loading_bar = 50
+	size_stars = int(percent * size_loading_bar / 100)
+	size_spaces = size_loading_bar - size_stars
+	sequence = "{:" + '*' + "<" + str(size_stars) + "}"
+	sequence2 = "{: <" + str(size_spaces) + "}"
+	progress_bar = sequence.format("") + sequence2.format("")
+	print("ETA: %.2fs [ %d%%]" % (ETA, percent), "%i/%i |" % (range_size - remaining_range, range_size), "[", progress_bar, "]", "elapsed_time %.2fs" % time_elapsed, end='\r')
+
 	
 	ret += (elem + 3) % 5
 	sleep(sleep_value)
