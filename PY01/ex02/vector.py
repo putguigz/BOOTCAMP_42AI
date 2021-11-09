@@ -30,7 +30,15 @@ class Vector:
 						if not isinstance(sub_sub_elem, float):
 							raise ValueError("Not floats inside list of list")	
 			self.values = lst
-		print(sum(isinstance(x, list) for x in self.values))
+		nb_list = sum(isinstance(x, list) for x in self.values)
+		if nb_list == 0:
+			nb_list = 1
+		if nb_list == 1:
+			nb_float = sum(isinstance(x, float) for x in self.values)
+		else:
+			nb_float = 1
+		self.shape = (nb_list, nb_float)
+		
 			
 #	def __add__(self, rhs):
 #		
@@ -53,8 +61,8 @@ class Vector:
 #	def __repr__(self, rhs):
 
 try:
-	test = Vector([[0.0], [1.0], [2.0], [3.0]])
+	test = Vector(range(50))
 	print(test.values)
-	#print(test.shape)
+	print(test.shape)
 except ValueError as err:
 	print(err.args)
