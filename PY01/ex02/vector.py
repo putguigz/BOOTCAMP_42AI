@@ -17,16 +17,9 @@ class Vector:
 			if len(lst) == 0:
 				raise ValueError("Empty list is forbidden")
 
-
-			check_list = check_float = True
-			for i in lst:
-				if not isinstance(i, (float)):
-					check_float = False
-			for j in lst:
-				if not isinstance(j, (list)):
-					check_list = False
-
-			if not check_list and not check_float:
+			nb_floats = sum((isinstance(x, float) for x in lst))
+			nb_lists = sum((isinstance(y, list) for y in lst))
+			if not ((nb_floats != 0 and nb_lists == 0) or (nb_floats == 0 and nb_lists != 0)):
 				raise ValueError("list is inconsistent in type")
 
 			for sub_elem in lst:
@@ -37,7 +30,7 @@ class Vector:
 						if not isinstance(sub_sub_elem, float):
 							raise ValueError("Not floats inside list of list")	
 			self.values = lst
-		print(len(self.values))
+		print(sum(isinstance(x, list) for x in self.values))
 			
 #	def __add__(self, rhs):
 #		
