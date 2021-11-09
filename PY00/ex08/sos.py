@@ -1,15 +1,21 @@
 import sys
 
 morse = {
-	    'A' : '.-', 'B' : '-...', 'C' : '-.-.', 'D' : '-..', 'E' : '.', 'F' : '..-.', 'G' : '--.', 'H' : '....', 'I' : '..', 'J' : '.---', 'K' : '-.-', 'L' : '.-..', 'M' : '--', 'N' : '-.', 'O' : '---', 'P' : '.--.', 'Q' : '--.-', 'R' : '.-.', 'S' : '...', 'T' : '-', 'U' : '..-', 'V' : '...-', 'W' : '.--', 'X' : '-..-', 'Y' : '-.--', 'Z' : '--..'
+	' ' : '/', '-' : '-----', '1' : ".----", '2' : '..---', '3' : '...--', '4' : '....-', '5' : '.....', '6' : '-....', '7' : '--...', '8' : '---..', '9' : '----.',\
+		'A' : '.-', 'B' : '-...', 'C' : '-.-.', 'D' : '-..', 'E' : '.', 'F' : '..-.', 'G' : '--.', 'H' : '....', 'I' : '..', 'J' : '.---', 'K' : '-.-',\
+			'L' : '.-..', 'M' : '--', 'N' : '-.', 'O' : '---', 'P' : '.--.', 'Q' : '--.-', 'R' : '.-.', 'S' : '...', 'T' : '-', 'U' : '..-', 'V' : '...-',\
+				'W' : '.--', 'X' : '-..-', 'Y' : '-.--', 'Z' : '--..'
 		}
 
 for word in sys.argv[1:]:
-	if not word.isalnum() or not word.isupper():
-		print("ERROR")
-		quit()
+	for letter in word:
+		if not letter.isalnum() and not letter.isspace():
+			print("ERROR")
+			quit()
 
-for word in sys.argv[1:]:
+for sentence in sys.argv[1:]:
+	sentence = sentence.strip()
+	for word in sentence:
 		for letter in word:
-			print(morse[letter], end=' ')
-
+			print(morse[letter.upper()], end=' ')
+	print('/', end='')
