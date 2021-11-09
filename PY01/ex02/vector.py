@@ -40,10 +40,10 @@ class Vector:
 		self.shape = (nb_list, nb_float)
 		
 			
-#	def __add__(self, rhs):
-#		
-#	def __radd__(self, rhs):
-#
+	def __add__(self, rhs):
+		print("in add")
+	def __radd__(self, rhs):
+		print("in radd")
 #	def __sub__(self, rhs):
 #
 #	def __rsub__(self, rhs):	
@@ -61,7 +61,9 @@ class Vector:
 #	def __repr__(self, rhs):
 
 try:
-	test = Vector(range(50))
+	test = Vector(range(1, 10))
+	test2 = Vector(range(10, 20))
+	5 + test2
 	print(test.values)
 	print(test.shape)
 except ValueError as err:
