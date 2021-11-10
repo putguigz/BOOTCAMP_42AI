@@ -65,22 +65,39 @@ class Vector:
 		return (Vector(new_list))
 
 	def __radd__(self, rhs):
-		if rhs == 0:
-			return self
-		else:
 			return self.__add__(rhs)
 
 	def __sub__(self, rhs):
 		if rhs == 0:
 			return self
+		if not isinstance(rhs, Vector):
+			raise ValueError("elem in operation not of Vector type.")
+		if self.shape != rhs.shape:
+			raise ValueError("elems doesn't have the same dimension")
+		return (self.__add__(rhs.__mul__(-1)))
+
+	def __rsub__(self, rhs):
+		return self.__sub__(rhs)
+
+	def __truediv__(self, rhs):
+		if not isinstance(rhs, (int, float)):
+			raise ValueError("Scalar is not int nor float")
+		if rhs == 0:
+			raise ValueError("Cannot divide by 0")
+		new_list = []
+		if (self.shape[0] == 1):
+			for i in range(self.shape[1]):
+				new_list.append(self.values[i] / rhs)
 		else:
-			return (self.__add__(rhs.__mul__(-1)))
-#	def __rsub__(self, rhs):	
-#
-#	def __truediv__(self, rhs):
-#
-#	def __rtruediv__(self, rhs):
-#
+			for i in range(self.shape[0]):
+				new_list.append([self.values[i][0] / rhs])
+		return (Vector(new_list))
+		
+
+	def __rtruediv__(self, rhs):
+		if isinstance(rhs, (int, float)):
+			raise ValueError("A scalar cannot be divided by a Vector")
+	
 	def __mul__(self, rhs):
 		if not isinstance(rhs, (int, float)):
 			raise ValueError("Scalar is not int nor float")
@@ -93,9 +110,10 @@ class Vector:
 				new_list.append([self.values[i][0] * rhs])
 		return (Vector(new_list))
 		
-#
-#	def __rmul__(self, rhs):
-#
+
+	def __rmul__(self, rhs):
+		return self.__mul__(rhs)
+	
 	def __str__(self):
 		return f"Here is the content of class:\nShape = {self.shape}\nValue = {self.values}"
 
@@ -114,8 +132,9 @@ try:
 	test_res = test - test2
 	test_res2 = test3 - test4
 	print('\n\n')
-	print(repr(test_res))
+	print(repr(test_res * 10))
 	print('\n')
-	print(repr(test_res2))
+	print(repr(test_res2 * -10))
+	print(repr((test_res * 10) / 100))
 except ValueError as err:
 	print(err.args)
