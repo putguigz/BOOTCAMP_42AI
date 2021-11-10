@@ -120,21 +120,41 @@ class Vector:
 	def __repr__(self):
 		return f"Vector(shape={self.shape} value={self.values})"
 
+	def dot(self, rhs):
+		if not isinstance(rhs, Vector):
+			raise ValueError("Right elem is not of type Vector")
+		if self.shape != rhs.shape:
+			raise ValueError("Vectors are not of same dimension")
+		new_list = []
+		result = 0
+		if (self.shape[0] == 1):
+			for i in range(self.shape[1]):
+				new_list.append(self.values[i] * rhs.values[i])
+			for i in range(len(new_list)):
+				result += new_list[i]
+		else:
+			for i in range(self.shape[0]):
+				new_list.append([self.values[i][0] * rhs.values[i][0]])
+			for i in range(len(new_list)):
+				result += new_list[i][0]	
+		return (result)
+	
+	def T(self):
+		new_list = []
+		if (self.shape[0] == 1):
+			for i in range(self.shape[1]):
+				new_list.append([self.values[i]])
+		else:
+			for i in range(self.shape[0]):
+				new_list.append(self.values[i][0])
+		return (Vector(new_list))
+
 try:
 	test = Vector([[1.0], [2.0], [3.0], [4.0], [5.0]])
 	test2 = Vector([[5.0], [4.0], [3.0], [2.0], [1.0]])
 	test3 = Vector([1.0, 2.0, 3.0, 4.0, 5.0])
 	test4 = Vector([5.0, 4.0, 3.0, 2.0, 1.0])
-	print(test.values)
-	print(test.shape)
-	print(test2.values)
-	print(test2.shape)
-	test_res = test - test2
-	test_res2 = test3 - test4
-	print('\n\n')
-	print(repr(test_res * 10))
-	print('\n')
-	print(repr(test_res2 * -10))
-	print(repr((test_res * 10) / 100))
+
+	print(test2.T())
 except ValueError as err:
 	print(err.args)
