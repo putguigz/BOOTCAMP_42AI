@@ -41,7 +41,19 @@ class Vector:
 		
 			
 	def __add__(self, rhs):
-		print("in add")
+		if not isinstance(rhs, Vector):
+			raise ValueError("elem in operation not of Vector type.")
+		if self.shape != rhs.shape:
+			raise ValueError("elems doesn't have the same dimension")
+		new_list = []
+		if (self.shape[0] == 1):
+			for i in range(self.shape[1]):
+				new_list.append(self.values[i] + rhs.values[i])
+		else:
+			for i in range(self.shape[0]):
+				new_list.append([self.values[i][0] + rhs.values[i][0]])
+		return (Vector(new_list))
+
 	def __radd__(self, rhs):
 		print("in radd")
 #	def __sub__(self, rhs):
@@ -61,10 +73,14 @@ class Vector:
 #	def __repr__(self, rhs):
 
 try:
-	test = Vector(range(1, 10))
+	test = Vector(range(0, 10))
 	test2 = Vector(range(10, 20))
-	5 + test2
 	print(test.values)
 	print(test.shape)
+	print(test2.values)
+	print(test2.shape)
+	test3 = test + test2
+	print('\n\n')
+	print(test3.__dict__)
 except ValueError as err:
 	print(err.args)
