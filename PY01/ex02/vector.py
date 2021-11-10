@@ -6,11 +6,17 @@ class Vector:
 			self.values = []
 			for i in range(lst):
 				self.values.append([float(i)])
-		elif isinstance(lst, range):
-			if len(lst) == 0:
+		elif isinstance(lst, tuple):
+			if len(lst) != 2:
+				raise ValueError("Wrong Range size")
+			if not isinstance(lst[0], int) or not isinstance(lst[1], int):
+				raise ValueError("Tuple is not composed of ints")
+			if lst[1] - lst[0] == 0:
 				raise ValueError("Size of 0 list is forbidden")
 			self.values = []
-			for i in lst:
+			r1 = range(lst[0], lst[1])
+			print(r1)
+			for i in r1:
 				print(i)
 				self.values.append([float(i)])
 		elif isinstance(lst, list):
@@ -30,6 +36,8 @@ class Vector:
 						if not isinstance(sub_sub_elem, float):
 							raise ValueError("Not floats inside list of list")	
 			self.values = lst
+		else:
+			raise ValueError("Wrong type of global input")
 		nb_list = sum(isinstance(x, list) for x in self.values)
 		if nb_list == 0:
 			nb_list = 1
@@ -41,6 +49,8 @@ class Vector:
 		
 			
 	def __add__(self, rhs):
+		if rhs == 0:
+			return self
 		if not isinstance(rhs, Vector):
 			raise ValueError("elem in operation not of Vector type.")
 		if self.shape != rhs.shape:
@@ -55,32 +65,57 @@ class Vector:
 		return (Vector(new_list))
 
 	def __radd__(self, rhs):
-		print("in radd")
-#	def __sub__(self, rhs):
-#
+		if rhs == 0:
+			return self
+		else:
+			return self.__add__(rhs)
+
+	def __sub__(self, rhs):
+		if rhs == 0:
+			return self
+		else:
+			return (self.__add__(rhs.__mul__(-1)))
 #	def __rsub__(self, rhs):	
 #
 #	def __truediv__(self, rhs):
 #
 #	def __rtruediv__(self, rhs):
 #
-#	def __mul__(self, rhs):
+	def __mul__(self, rhs):
+		if not isinstance(rhs, (int, float)):
+			raise ValueError("Scalar is not int nor float")
+		new_list = []
+		if (self.shape[0] == 1):
+			for i in range(self.shape[1]):
+				new_list.append(self.values[i] * rhs)
+		else:
+			for i in range(self.shape[0]):
+				new_list.append([self.values[i][0] * rhs])
+		return (Vector(new_list))
+		
 #
 #	def __rmul__(self, rhs):
 #
-#	def __str__(self, rhs):
-#
-#	def __repr__(self, rhs):
+	def __str__(self):
+		return f"Here is the content of class:\nShape = {self.shape}\nValue = {self.values}"
+
+	def __repr__(self):
+		return f"Vector(shape={self.shape} value={self.values})"
 
 try:
-	test = Vector(range(0, 10))
-	test2 = Vector(range(10, 20))
+	test = Vector([[1.0], [2.0], [3.0], [4.0], [5.0]])
+	test2 = Vector([[5.0], [4.0], [3.0], [2.0], [1.0]])
+	test3 = Vector([1.0, 2.0, 3.0, 4.0, 5.0])
+	test4 = Vector([5.0, 4.0, 3.0, 2.0, 1.0])
 	print(test.values)
 	print(test.shape)
 	print(test2.values)
 	print(test2.shape)
-	test3 = test + test2
+	test_res = test - test2
+	test_res2 = test3 - test4
 	print('\n\n')
-	print(test3.__dict__)
+	print(repr(test_res))
+	print('\n')
+	print(repr(test_res2))
 except ValueError as err:
 	print(err.args)
