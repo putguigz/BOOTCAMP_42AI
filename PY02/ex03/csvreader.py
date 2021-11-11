@@ -7,8 +7,9 @@ class CsvReader():
 			if not filename:
 				raise ValueError("Cannot initialize CsvReader without a file")
 			for root, direc, files in os.walk("."):
-				if filename not in files:
-					raise ValueError("File not found")
+				if root == '.':
+					if filename not in files:
+						raise ValueError("File not found")
 			self.filename = filename
 			self.sep = sep
 			self.header = header
@@ -20,17 +21,31 @@ class CsvReader():
 			print(err.args)
 	
 	def __enter__(self):
+		if not hasattr(self, "filename"):
+			raise ValueError("filename is not set")
 		self.fd = open(self.filename, 'r')
-		self.nb_columns = len(self.fd.readline().split(self.sep))
+
+		i = self.fd.readline()
+		while i == '\n':
+			i = self.fd.readline()
+		if i:
+			self.nb_columns = len(i.split(self.sep))
+		for line in self.fd.readlines():
+			splited_line = line.split(self.sep)
+			if len(splited_line) != self.nb_columns or "\n" in splited_line or None in splited_line or "" in splited_line:
+				return None
 		print(self.nb_columns)
 		return self
 
-	def __exit__(self):
+	def __exit__(self, exception_type, exception_value, traceback):
 		self.fd.close()
 
 	def getdata(self):
 		""" Retrieves the data/records from skip_top to skip bottom. 
 		Returns: nested list (list(list, list, ...)) representing the data."""
+		
+		self.fd.seek(0)
+		print("Hi")
 
 
 	def getheader(self):
@@ -38,3 +53,5 @@ class CsvReader():
 			list: representing the data (when self.header is True).
 			None: (when self.header is False).
 		"""
+		self.fd.seek(0)
+		print("Oh Hi Mark")
