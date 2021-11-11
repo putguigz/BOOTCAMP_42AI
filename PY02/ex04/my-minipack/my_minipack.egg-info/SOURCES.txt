@@ -1,0 +1,6 @@
+README.md
+setup.py
+my_minipack.egg-info/PKG-INFO
+my_minipack.egg-info/SOURCES.txt
+my_minipack.egg-info/dependency_links.txt
+my_minipack.egg-info/top_level.txt
