@@ -42,7 +42,7 @@ class CsvReader():
 	def getdata(self):
 		""" Retrieves the data/records from skip_top to skip bottom. 
 		Returns: nested list (list(list, list, ...)) representing the data."""
-		
+
 		self.fd.seek(0)
 		data_list = []
 		i = self.fd.readline()
@@ -53,7 +53,7 @@ class CsvReader():
 			for splited in line.split(self.sep):
 				mini_list.append(splited.strip(" \'\"\n"))
 			data_list.append(mini_list)
-		return data_list
+		return data_list[self.skip_top:len(data_list) - self.skip_bottom]
 
 
 	def getheader(self):
