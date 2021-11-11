@@ -1,7 +1,6 @@
 import time
 from random import randint 
 import os
-from functools import wraps
 
 
 def log(fct):
