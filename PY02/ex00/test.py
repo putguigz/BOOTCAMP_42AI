@@ -19,6 +19,9 @@ except ValueError as err:
 	print(err.args)
 
 try:
-	print(ft_reduce(lambda a, b : a + b, [1, 10, 20, 30 , 40]))
+	r1 = reduce(lambda a, b : a * b, [1, 1, 33, 444, 555])
+	r2 = ft_reduce(lambda a, b: a * b, [1, 1, 33, 444, 555])
+	print(r1)
+	print(r2)
 except ValueError as err:
 	print(err.args)
