@@ -32,9 +32,8 @@ class CsvReader():
 			self.nb_columns = len(i.split(self.sep))
 		for line in self.fd.readlines():
 			splited_line = line.split(self.sep)
-			if len(splited_line) != self.nb_columns or "\n" in splited_line or None in splited_line or "" in splited_line:
+			if len(splited_line) != self.nb_columns:# or "\n" in splited_line or None in splited_line or "" in splited_line:
 				return None
-		print(self.nb_columns)
 		return self
 
 	def __exit__(self, exception_type, exception_value, traceback):
@@ -45,7 +44,16 @@ class CsvReader():
 		Returns: nested list (list(list, list, ...)) representing the data."""
 		
 		self.fd.seek(0)
-		print("Hi")
+		data_list = []
+		i = self.fd.readline()
+		while i == '\n':
+			i = self.fd.readline()
+		for line in self.fd.readlines():
+			mini_list = []
+			for splited in line.split(self.sep):
+				mini_list.append(splited.strip(" \'\"\n"))
+			data_list.append(mini_list)
+		return data_list
 
 
 	def getheader(self):
@@ -54,4 +62,13 @@ class CsvReader():
 			None: (when self.header is False).
 		"""
 		self.fd.seek(0)
-		print("Oh Hi Mark")
+		if not self.header:
+			return None
+		else:
+			i = self.fd.readline()
+			while i == '\n':
+				i = self.fd.readline()
+			list_header = []
+			for splited in i.split(self.sep):
+				list_header.append(splited.strip(" \'\"\n"))
+			return list_header
