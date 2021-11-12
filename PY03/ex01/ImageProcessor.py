@@ -17,7 +17,7 @@ class ImageProcessor:
 
 	def display(array):
 		try:
-			if isinstance(array, list):
+			if not isinstance(array, np.ndarray):
 				raise ValueError("Input is of WrongType")
 			img = Image.fromarray(array)
 			img.show()
