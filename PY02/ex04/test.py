@@ -1,4 +1,5 @@
-import my_minipack
+import my_minipack.logger
+
 from time import sleep
 
 listy = range(1000)
