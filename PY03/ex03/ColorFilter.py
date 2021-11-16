@@ -16,8 +16,6 @@ class ColorFilter:
 			return None
 		else:
 			cpy = np.zeros(np.shape(array))
-			cpy[:, :, 0] = 0
-			cpy[:, :, 1] = 0
 			cpy[:, :, 2] = array[:, :, 2]
 			cpy[:, :, 3] = array[:, :, 3]
 			return (cpy)
@@ -28,8 +26,8 @@ class ColorFilter:
 			return None
 		else:
 			cf = ColorFilter()
-			tmp = array[:, :, :3]
-			return tmp - cf.to_blue(array)[:, :, :3] - cf.to_green(array)[:, :, :3]
+			tmp = array[:, :, :3] - cf.to_blue(array)[:, :, :3] - cf.to_green(array)[:, :, :3]
+			return tmp
 	
 	@staticmethod
 	def to_green(array):
@@ -53,13 +51,15 @@ class ColorFilter:
 			elif filter == 'w' or filter == 'weighted':
 				if len(kwargs) != 3:
 					return None
+				else:
+					r = kwargs[0]
+					g = kwargs[1]
+					b = kwargs[2]
 			else:
 				return None
-			print(array)
-			array[:, :, 0] = 0.2989 * array[:, :, 0]
-			array[:, :, 1] = 0.5870 * array[:, :, 1]
-			array[:, :, 2] = 0.1140 * array[:, :, 2]
-			print(array)
+			array[:, :, 0] = r * array[:, :, 0]
+			array[:, :, 1] = g * array[:, :, 1]
+			array[:, :, 2] = b * array[:, :, 2]
 			return (array)
 
 imp = ImageProcessor()
@@ -72,5 +72,7 @@ arr = imp.load("assets/elon_canaGAN.png")
 #imp.display(arr)
 #imp.display(cf.to_green(arr))
 #imp.display(arr)
-imp.display(cf.to_red(arr))
+#imp.display(cf.to_red(arr))
+#imp.display(arr)
+imp.display(cf.to_grayscale(arr, 'm'))
 imp.display(arr)
