@@ -1,3 +1,4 @@
+
 from ImageProcessor import ImageProcessor
 import numpy as np
 import copy
@@ -51,16 +52,17 @@ class ColorFilter:
 			elif filter == 'w' or filter == 'weighted':
 				if len(kwargs) != 3:
 					return None
-				else:
+				else:	
 					r = kwargs[0]
 					g = kwargs[1]
 					b = kwargs[2]
 			else:
 				return None
-			array[:, :, 0] = r * array[:, :, 0]
-			array[:, :, 1] = g * array[:, :, 1]
-			array[:, :, 2] = b * array[:, :, 2]
-			return (array)
+			new_array = np.dstack((array[:,:,0] * 0.2989 + array[:,:,1] * 0.5870 + array[:,:,2] * 0.1140,\
+				 array[:,:,0] * 0.2989 + array[:,:,1] * 0.5870 + array[:,:,2] * 0.1140,\
+					  array[:,:,0] * 0.2989 + array[:,:,1] * 0.5870 + array[:,:,2] * 0.1140,\
+						   array[:,:,3]))
+			return new_array
 
 imp = ImageProcessor()
 cf = ColorFilter()
@@ -74,5 +76,5 @@ arr = imp.load("assets/elon_canaGAN.png")
 #imp.display(arr)
 #imp.display(cf.to_red(arr))
 #imp.display(arr)
-imp.display(cf.to_grayscale(arr, 'm'))
+imp.display(cf.to_grayscale(arr, "m"))
 imp.display(arr)
