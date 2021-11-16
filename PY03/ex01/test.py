@@ -67,3 +67,8 @@ arr
 #        [0.03921569, 0.10588235, 0.26666668]]], dtype=float32)
 # 
 imp.display(arr)
+
+img = ImageProcessor.load("elon_canaGAN.png")
+print(type(img))
+print(img)
+ImageProcessor.display(img)
