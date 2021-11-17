@@ -63,18 +63,26 @@ class ColorFilter:
 					  array[:,:,0] * 0.2989 + array[:,:,1] * 0.5870 + array[:,:,2] * 0.1140,\
 						   array[:,:,3]))
 			return new_array
+		
+	@staticmethod
+	def to_celluloid(array):
+		pass
+
 
 imp = ImageProcessor()
 cf = ColorFilter()
 arr = imp.load("assets/elon_canaGAN.png")
 
-#imp.display(cf.invert(arr))
-#imp.display(arr)
-#imp.display(cf.to_blue(arr))
-#imp.display(arr)
-#imp.display(cf.to_green(arr))
-#imp.display(arr)
-#imp.display(cf.to_red(arr))
-#imp.display(arr)
+imp.display(cf.invert(arr))
+imp.display(arr)
+imp.display(cf.to_blue(arr))
+imp.display(arr)
+imp.display(cf.to_green(arr))
+imp.display(arr)
+imp.display(cf.to_red(arr))
+imp.display(arr)
 imp.display(cf.to_grayscale(arr, "m"))
 imp.display(arr)
+
+interval = np.linspace(0, 1, 5)
+print(interval)
