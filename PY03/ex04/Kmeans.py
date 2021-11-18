@@ -17,6 +17,12 @@ class KmeansClustering:
 		self.max_iter = max_iter
 		self.centroids = []				
 
+	def shortest_distance_index(self, centroids, elem):
+		dico = {0:[], 1:[], 2:[]}
+		for i in dico:
+			dico[i] = sqrt((centroids[i][0] - elem[0]) ** 2 + (centroids[i][1] - elem[1]) ** 2 + (centroids[i][2] - elem[2]) ** 2)
+		return (min(dico, key=dico.get))	
+
 	def fit(self, X):
 		if not isinstance(X, np.ndarray):
 			return None
@@ -27,8 +33,13 @@ class KmeansClustering:
 				for j in range(3):
 					for x in range(3):
 						a_centroids[i][j][x] = random.uniform(min(flatened), max(flatened))
-			values = np.ndarray((self.max_iter, 3, 3))
-				
+			for i in range(self.max_iter):
+				new_list = [[], [], []]
+				for j, elem in enumerate(X):
+					idx = self.shortest_distance_index(a_centroids[i], elem)
+					new_list[idx].append(j)
+				print(new_list)
+
 	def predict(self, X):
 		pass
 
