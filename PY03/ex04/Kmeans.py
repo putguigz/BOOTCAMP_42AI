@@ -6,6 +6,7 @@ from csvreader import CsvReader
 import matplotlib.pyplot as plt
 from mpl_toolkits.mplot3d import Axes3D
 import numpy as np
+import math
 
 class KmeansClustering:
 	def __init__(self, max_iter=20, ncentroid=4):
@@ -18,9 +19,9 @@ class KmeansClustering:
 		self.centroids = []				
 
 	def shortest_distance_index(self, centroids, elem):
-		dico = {0:[], 1:[], 2:[]}
-		for i in dico:
-			dico[i] = sqrt((centroids[i][0] - elem[0]) ** 2 + (centroids[i][1] - elem[1]) ** 2 + (centroids[i][2] - elem[2]) ** 2)
+		dico = {}
+		for i in range(self.ncentroid):
+			dico[i] = math.sqrt((centroids[i][0] - elem[0]) ** 2 + (centroids[i][1] - elem[1]) ** 2 + (centroids[i][2] - elem[2]) ** 2)
 		return (min(dico, key=dico.get))	
 
 	def fit(self, X):
@@ -28,20 +29,30 @@ class KmeansClustering:
 			return None
 		else:
 			flatened = np.ndarray.flatten(X)
-			a_centroids = np.ndarray((self.max_iter, 3, 3))
+			a_centroids = np.ndarray((self.max_iter, self.ncentroid, 3))
 			for i in range(self.max_iter):
-				for j in range(3):
-					for x in range(3):
-						a_centroids[i][j][x] = random.uniform(min(flatened), max(flatened))
+				for j in range(self.ncentroid):
+					a_centroids[i][j] = X[random.randint(0, len(X))]
+			self.a_centroids = a_centroids
 			for i in range(self.max_iter):
-				new_list = [[], [], []]
-				for j, elem in enumerate(X):
-					idx = self.shortest_distance_index(a_centroids[i], elem)
-					new_list[idx].append(j)
-				print(new_list)
+				self.current_iter = i
+				prediction = self.predict(X)
+			
+			colors = ["red", "green", "blue", "black"]
+			ax = plt.axes(projection='3d')
+			for i, elem in enumerate(X):
+				ax.scatter3D(elem[0], elem[1], elem[2], color=colors[prediction[i][0]])
+			plt.show()
+			
+			
 
 	def predict(self, X):
-		pass
+		predict = np.ndarray((np.shape(X)[0], 1))
+		for j, elem in enumerate(X):
+			idx = self.shortest_distance_index(self.a_centroids[self.current_iter], elem)
+			predict[j] = idx
+		predict = predict.astype(int)
+		return predict
 
 def main():
 	lst = sys.argv[1:]
@@ -57,10 +68,6 @@ def main():
 		   data = file.getdata()
 		data = np.reshape(data, (len(data), 4))
 		split = data[:, 1:].astype(float)
-
-		#ax = plt.axes(projection='3d')
-		#ax.scatter3D(split[:, 0], split[:, 1], split[:, 2])
-		#plt.show()
 
 		hp = KmeansClustering(int(kwlst["max_iter"]), int(kwlst["ncentroid"]))
 		hp.fit(split)
