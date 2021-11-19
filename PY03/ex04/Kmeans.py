@@ -44,6 +44,7 @@ class KmeansClustering:
 			for i in range(self.max_iter):
 				self.current_iter = i
 				self.prediction.append(self.predict(X))
+			
 			k = 0
 			while k < self.max_iter and self.distances[k] != min(self.distances):
 				k += 1
